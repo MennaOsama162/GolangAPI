@@ -1,37 +1,44 @@
-Library Management System
+# Library Management System
+
 This project is a Library Management System built using Golang, MySQL, and the Fiber web framework. It provides CRUD operations for managing books and authors, including soft delete functionality.
 
-Features
-Create, read, update, and delete authors
-Create, read, update, and delete books
-Soft delete functionality for authors and books
-Search books by title
-Validation for inputs
-Preloading related data
-Project Structure
-go
-Copy code
+## Features
+
+- **Create, read, update, and delete authors**
+- **Create, read, update, and delete books**
+- **Soft delete functionality for authors and books**
+- **Search books by title**
+- **Validation for inputs**
+- **Preloading related data**
+
+## Project Structure
+
 .
 ├── main.go
 ├── pkg
-│   ├── config
-│   │   └── app.go
-│   ├── controllers
-│   │   ├── authorController.go
-│   │   └── bookController.go
-│   ├── models
-│   │   ├── author.go
-│   │   └── book.go
-│   └── routes
-│       └── routes.go
+│ ├── config
+│ │ └── app.go
+│ ├── controllers
+│ │ ├── authorController.go
+│ │ └── bookController.go
+│ ├── models
+│ │ ├── author.go
+│ │ └── book.go
+│ └── routes
+│ └── routes.go
 ├── go.mod
 ├── go.sum
 ├── .gitignore
 └── README.md
-Setup and Installation
-Clone the repository:
-sh
+
+bash
 Copy code
+
+## Setup and Installation
+
+### Clone the repository:
+
+```sh
 git clone https://github.com/yourusername/library-management.git
 cd library-management
 Install dependencies:
@@ -134,3 +141,8 @@ Feel free to submit issues, fork the repository, and send pull requests. For maj
 
 License
 This project is licensed under the MIT License.
+
+csharp
+Copy code
+
+This Markdown format should display consistently when viewed on GitHub or other Markdown-rendering p
