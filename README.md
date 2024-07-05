@@ -121,9 +121,7 @@ DELETE /api/books/softDelete/:id
 Delete Book:
 
 DELETE /api/books/:id
-Search Books by Title:
 
-GET /api/books/search?title=Book Title
 Testing
 Use Postman or any API testing tool to interact with the API endpoints.
 
