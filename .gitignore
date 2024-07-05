@@ -1,0 +1,49 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Go workspace file
+*.workspace
+
+# Dependency directories (remove the comment below if you have vendored dependencies)
+vendor/
+
+# Go modules
+/go.mod
+/go.sum
+
+# IntelliJ project files
+.idea/
+
+/# VS Code settings
+.vscode/
+
+# Node modules (if you use Node.js)
+node_modules/
+
+# Fiber generated files
+fiber.log
+
+# MySQL configuration files
+*.cnf
+
+# .env files
+.env
+.env.local
+
+# Swag generated docs
+/docs
+
+# Logs
+*.log
+*.log.*
+
+# Other
+.DS_Store
