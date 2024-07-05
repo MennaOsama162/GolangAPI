@@ -39,7 +39,7 @@ Copy code
 ### Clone the repository:
 
 ```sh
-git clone https://github.com/yourusername/library-management.git
+git clone https://github.com/MennaOsama162/GolangAPI.git
 cd library-management
 Install dependencies:
 Ensure you have Go and MySQL installed. Then, run:
@@ -50,7 +50,7 @@ Configure the database:
 Create a MySQL database named librarydb. Update the database credentials in pkg/config/app.go if necessary:
 
 go
-dsn := "root:mennaosama1682@tcp(127.0.0.1:3306)/librarydb?charset=utf8mb4&parseTime=True&loc=Local&allowNativePasswords=true"
+dsn := "root:mennaosama1682@tcp(127.0.0.1:3306)/librarydb?charset=utf8mb4&parseTime=True&loc=Local&allowNativePasswords=true" // replace it with your connection string
 Run the application:
 sh
 
