@@ -9,17 +9,17 @@ import (
 func SetupRoutes(app *fiber.App) {
 	api := app.Group("/api")
 
-	authorRoutes := api.Group("/authors")
-	authorRoutes.Post("/", controllers.CreateAuthor)
-	authorRoutes.Get("/", controllers.GetAuthors)
-	authorRoutes.Get("/:id", controllers.GetAuthor)
-	authorRoutes.Put("/:id", controllers.UpdateAuthor)
-	authorRoutes.Delete("/:id", controllers.DeleteAuthor)
+	// Author routes
+	api.Post("/authors", controllers.CreateAuthor)
+	api.Get("/authors", controllers.GetAuthors)
+	api.Get("/authors/:id", controllers.GetAuthor)
+	api.Put("/authors/:id", controllers.UpdateAuthor)
+	api.Delete("/authors/:id", controllers.DeleteAuthor)
 
-	bookRoutes := api.Group("/books")
-	bookRoutes.Post("/", controllers.CreateBook)
-	bookRoutes.Get("/", controllers.GetBooks)
-	bookRoutes.Get("/:id", controllers.GetBook)
-	bookRoutes.Put("/:id", controllers.UpdateBook)
-	bookRoutes.Delete("/:id", controllers.DeleteBook)
+	// Book routes
+	api.Post("/books", controllers.CreateBook)
+	api.Get("/books", controllers.GetBooks)
+	api.Get("/books/:id", controllers.GetBook)
+	api.Put("/books/:id", controllers.UpdateBook)
+	api.Delete("/books/:id", controllers.DeleteBook)
 }

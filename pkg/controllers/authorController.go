@@ -3,7 +3,9 @@ package controllers
 import (
 	"library-management/pkg/config"
 	"library-management/pkg/models"
+	"log"
 	"net/http"
+	"strings"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
@@ -27,7 +29,13 @@ func CreateAuthor(c *fiber.Ctx) error {
 	}
 
 	author := models.Author{Name: input.Name, Email: input.Email}
-	config.DB.Create(&author)
+	if err := config.DB.Create(&author).Error; err != nil {
+		if strings.Contains(err.Error(), "duplicate key value violates unique constraint") || strings.Contains(err.Error(), "Error 1062") {
+			return c.Status(http.StatusConflict).JSON(fiber.Map{"error": "Email already exists"})
+		}
+		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+
 	return c.Status(http.StatusCreated).JSON(author)
 }
 
@@ -62,9 +70,16 @@ func UpdateAuthor(c *fiber.Ctx) error {
 		return c.Status(http.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 	}
 
+	if author.Email != input.Email {
+		log.Printf("Email changed: New email notification sent to %s", input.Email)
+	}
+
 	author.Name = input.Name
 	author.Email = input.Email
-	config.DB.Save(&author)
+	if result := config.DB.Save(&author); result.Error != nil {
+		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to update author"})
+	}
+
 	return c.JSON(author)
 }
 

@@ -32,8 +32,18 @@ func CreateBook(c *fiber.Ctx) error {
 		return c.Status(http.StatusBadRequest).JSON(fiber.Map{"error": "Invalid date format"})
 	}
 
+	// Check for duplicate ISBN
+	var existingBook models.Book
+	if err := config.DB.Where("isbn = ?", input.ISBN).First(&existingBook).Error; err == nil {
+		// Book with the same ISBN already exists
+		return c.Status(http.StatusConflict).JSON(fiber.Map{"error": "Book with this ISBN already exists"})
+	}
+
 	book := models.Book{Title: input.Title, ISBN: input.ISBN, PublishedDate: publishedDate, AuthorID: input.AuthorID}
-	config.DB.Create(&book)
+	if err := config.DB.Create(&book).Error; err != nil {
+		// Handle other potential errors during creation
+		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
 	return c.Status(http.StatusCreated).JSON(book)
 }
 
