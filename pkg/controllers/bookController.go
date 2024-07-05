@@ -8,6 +8,7 @@ import (
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
+	"gorm.io/gorm"
 )
 
 type CreateBookInput struct {
@@ -99,5 +100,22 @@ func DeleteBook(c *fiber.Ctx) error {
 	}
 
 	config.DB.Delete(&book)
+	return c.SendStatus(http.StatusNoContent)
+}
+
+func SoftDeleteBook(c *fiber.Ctx) error {
+	id := c.Params("id")
+	var book models.Book
+	if result := config.DB.First(&book, id); result.Error != nil {
+		return c.Status(http.StatusNotFound).JSON(fiber.Map{"error": "Book not found"})
+	}
+
+	// Set DeletedAt to the current timestamp
+	book.DeletedAt = gorm.DeletedAt{Time: time.Now(), Valid: true}
+
+	if result := config.DB.Save(&book); result.Error != nil {
+		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to soft delete book"})
+	}
+
 	return c.SendStatus(http.StatusNoContent)
 }

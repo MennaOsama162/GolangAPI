@@ -15,6 +15,7 @@ func SetupRoutes(app *fiber.App) {
 	api.Get("/authors/:id", controllers.GetAuthor)
 	api.Put("/authors/:id", controllers.UpdateAuthor)
 	api.Delete("/authors/:id", controllers.DeleteAuthor)
+	api.Delete("/authors/softDelete/:id", controllers.SoftDeleteAuthor) // Corrected the function name here
 
 	// Book routes
 	api.Post("/books", controllers.CreateBook)
@@ -22,4 +23,6 @@ func SetupRoutes(app *fiber.App) {
 	api.Get("/books/:id", controllers.GetBook)
 	api.Put("/books/:id", controllers.UpdateBook)
 	api.Delete("/books/:id", controllers.DeleteBook)
+	api.Delete("/books/softDelete/:id", controllers.SoftDeleteBook)
+
 }

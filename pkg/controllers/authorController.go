@@ -6,9 +6,11 @@ import (
 	"log"
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
+	"gorm.io/gorm"
 )
 
 var validate = validator.New()
@@ -41,7 +43,10 @@ func CreateAuthor(c *fiber.Ctx) error {
 
 func GetAuthors(c *fiber.Ctx) error {
 	var authors []models.Author
-	config.DB.Find(&authors)
+	if result := config.DB.Where("deleted_at IS NULL").Find(&authors); result.Error != nil {
+		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": result.Error.Error()})
+	}
+
 	return c.JSON(authors)
 }
 
@@ -91,5 +96,22 @@ func DeleteAuthor(c *fiber.Ctx) error {
 	}
 
 	config.DB.Delete(&author)
+	return c.SendStatus(http.StatusNoContent)
+}
+
+func SoftDeleteAuthor(c *fiber.Ctx) error {
+	id := c.Params("id")
+	var author models.Author
+	if result := config.DB.First(&author, id); result.Error != nil {
+		return c.Status(http.StatusNotFound).JSON(fiber.Map{"error": "Author not found"})
+	}
+
+	// Set DeletedAt to the current timestamp
+	author.DeletedAt = gorm.DeletedAt{Time: time.Now(), Valid: true}
+
+	if result := config.DB.Save(&author); result.Error != nil {
+		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to soft delete book"})
+	}
+
 	return c.SendStatus(http.StatusNoContent)
 }
