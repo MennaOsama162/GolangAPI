@@ -41,7 +41,7 @@ sh
 Copy code
 go mod tidy
 Configure the database:
-Create a MySQL database named librarydb. Update the database credentials in pkg/config/app.go if necessary.
+Create a MySQL database named librarydb. Update the database credentials in pkg/config/app.go if necessary:
 
 go
 Copy code
@@ -56,11 +56,8 @@ API Endpoints
 Authors
 Create Author:
 
-http
-Copy code
 POST /api/authors
 Request Body:
-
 json
 Copy code
 {
@@ -69,21 +66,14 @@ Copy code
 }
 Get All Authors:
 
-http
-Copy code
 GET /api/authors
 Get Author by ID:
 
-http
-Copy code
 GET /api/authors/:id
 Update Author:
 
-http
-Copy code
 PUT /api/authors/:id
 Request Body:
-
 json
 Copy code
 {
@@ -92,22 +82,15 @@ Copy code
 }
 Soft Delete Author:
 
-http
-Copy code
 DELETE /api/authors/softDelete/:id
 Delete Author:
 
-http
-Copy code
 DELETE /api/authors/:id
 Books
 Create Book:
 
-http
-Copy code
 POST /api/books
 Request Body:
-
 json
 Copy code
 {
@@ -118,21 +101,14 @@ Copy code
 }
 Get All Books:
 
-http
-Copy code
 GET /api/books
 Get Book by ID:
 
-http
-Copy code
 GET /api/books/:id
 Update Book:
 
-http
-Copy code
 PUT /api/books/:id
 Request Body:
-
 json
 Copy code
 {
@@ -143,18 +119,12 @@ Copy code
 }
 Soft Delete Book:
 
-http
-Copy code
 DELETE /api/books/softDelete/:id
 Delete Book:
 
-http
-Copy code
 DELETE /api/books/:id
 Search Books by Title:
 
-http
-Copy code
 GET /api/books/search?title=Book Title
 Testing
 Use Postman or any API testing tool to interact with the API endpoints.
