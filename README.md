@@ -7,7 +7,6 @@ This project is a Library Management System built using Golang, MySQL, and the F
 - **Create, read, update, and delete authors**
 - **Create, read, update, and delete books**
 - **Soft delete functionality for authors and books**
-- **Search books by title**
 - **Validation for inputs**
 - **Preloading related data**
 
