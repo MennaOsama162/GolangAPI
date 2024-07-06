@@ -20,6 +20,8 @@ type CreateAuthorInput struct {
 	Email string `json:"email" validate:"required,email"`
 }
 
+///////////////////////////////////////////////////Create///////////////////////////////////////////////////////////////////
+
 func CreateAuthor(c *fiber.Ctx) error {
 	var input CreateAuthorInput
 	if err := c.BodyParser(&input); err != nil {
@@ -41,6 +43,8 @@ func CreateAuthor(c *fiber.Ctx) error {
 	return c.Status(http.StatusCreated).JSON(author)
 }
 
+//////////////////////////////////////////////////Get All /////////////////////////////////////////////////////////////
+
 func GetAuthors(c *fiber.Ctx) error {
 	var authors []models.Author
 	if result := config.DB.Where("deleted_at IS NULL").Find(&authors); result.Error != nil {
@@ -50,6 +54,8 @@ func GetAuthors(c *fiber.Ctx) error {
 	return c.JSON(authors)
 }
 
+////////////////////////////////////////////////////Get By Id //////////////////////////////////////////////////////////////
+
 func GetAuthor(c *fiber.Ctx) error {
 	id := c.Params("id")
 	var author models.Author
@@ -58,6 +64,8 @@ func GetAuthor(c *fiber.Ctx) error {
 	}
 	return c.JSON(author)
 }
+
+//////////////////////////////////////////////////Update /////////////////////////////////////////////////////////////
 
 func UpdateAuthor(c *fiber.Ctx) error {
 	id := c.Params("id")
@@ -88,6 +96,8 @@ func UpdateAuthor(c *fiber.Ctx) error {
 	return c.JSON(author)
 }
 
+//////////////////////////////////////////////////Delete /////////////////////////////////////////////////////////////
+
 func DeleteAuthor(c *fiber.Ctx) error {
 	id := c.Params("id")
 	var author models.Author
@@ -98,6 +108,8 @@ func DeleteAuthor(c *fiber.Ctx) error {
 	config.DB.Delete(&author)
 	return c.SendStatus(http.StatusNoContent)
 }
+
+//////////////////////////////////////////////////Soft Delete /////////////////////////////////////////////////////////////
 
 func SoftDeleteAuthor(c *fiber.Ctx) error {
 	id := c.Params("id")

@@ -18,6 +18,8 @@ type CreateBookInput struct {
 	AuthorID      uint   `json:"author_id" validate:"required"`
 }
 
+/////////////////////////////////////////////////Create ////////////////////////////////////////////////////////////
+
 func CreateBook(c *fiber.Ctx) error {
 	var input CreateBookInput
 	if err := c.BodyParser(&input); err != nil {
@@ -42,17 +44,20 @@ func CreateBook(c *fiber.Ctx) error {
 
 	book := models.Book{Title: input.Title, ISBN: input.ISBN, PublishedDate: publishedDate, AuthorID: input.AuthorID}
 	if err := config.DB.Create(&book).Error; err != nil {
-		// Handle other potential errors during creation
 		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
 	return c.Status(http.StatusCreated).JSON(book)
 }
+
+///////////////////////////////////////////////get All ///////////////////////////////////////////////////
 
 func GetBooks(c *fiber.Ctx) error {
 	var books []models.Book
 	config.DB.Preload("Author").Find(&books)
 	return c.JSON(books)
 }
+
+///////////////////////////////////////////////get one ///////////////////////////////////////////////////
 
 func GetBook(c *fiber.Ctx) error {
 	id := c.Params("id")
@@ -62,6 +67,8 @@ func GetBook(c *fiber.Ctx) error {
 	}
 	return c.JSON(book)
 }
+
+///////////////////////////////////////////////update ///////////////////////////////////////////////////
 
 func UpdateBook(c *fiber.Ctx) error {
 	id := c.Params("id")
@@ -92,6 +99,8 @@ func UpdateBook(c *fiber.Ctx) error {
 	return c.JSON(book)
 }
 
+///////////////////////////////////////////////delete ///////////////////////////////////////////////////
+
 func DeleteBook(c *fiber.Ctx) error {
 	id := c.Params("id")
 	var book models.Book
@@ -102,6 +111,8 @@ func DeleteBook(c *fiber.Ctx) error {
 	config.DB.Delete(&book)
 	return c.SendStatus(http.StatusNoContent)
 }
+
+//////////////////////////////////////////////Soft delete //////////////////////////////////////////////
 
 func SoftDeleteBook(c *fiber.Ctx) error {
 	id := c.Params("id")
@@ -118,4 +129,13 @@ func SoftDeleteBook(c *fiber.Ctx) error {
 	}
 
 	return c.SendStatus(http.StatusNoContent)
+}
+
+/////////////////////////////////////////Search By Title///////////////////////////////////
+
+func SearchBookByTitle(c *fiber.Ctx) error {
+	title := c.Params("title")
+	var books []models.Book
+	config.DB.Preload("Author").Where("title LIKE ?", "%"+title+"%").Find(&books)
+	return c.JSON(books)
 }
